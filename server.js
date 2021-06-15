@@ -19,7 +19,6 @@ app.use((req, res, next) => {
 })
 app.use(cors())
 
-
 app.use('/tasks', require('./controllers/taskController'))
 app.use('/users', require('./controllers/userController'))
 
