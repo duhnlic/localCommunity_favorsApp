@@ -11,6 +11,7 @@ mongoose
 		useUnifiedTopology: true,
 		useCreateIndex: true,
 		useFindAndModify: true,
+		connectTimeoutMS: 3000,
 	})
 	.then((instance) => {
 		console.log(`Connected to db: ${instance.connections[0].name}`)
