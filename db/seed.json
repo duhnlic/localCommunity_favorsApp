@@ -1,0 +1,24 @@
+[
+
+{
+    "title": "Retile the bathroom",
+    "description": "The tile in the poweder room is so outdated, gotta get this done",
+    "dueDate": "Dec 20, 2020",
+    "completed": false
+    
+},
+{
+    "title": "Watch all Wes Anderson movies",
+    "description": "I've been missing Fantastic Mr. Fox, need to find a good Tuesday night",
+    "dueDate": "Nov 18, 2020",
+    "completed": false
+   
+},
+{
+    "title": "Secure a PS5",
+    "description": "It's a unicorn, but I must press on",
+    "dueDate": "Jan 5, 2020",
+    "completed": false
+}
+
+]
