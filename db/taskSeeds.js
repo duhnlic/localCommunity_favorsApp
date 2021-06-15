@@ -4,7 +4,7 @@ const taskSeeds = require('./seed.json')
 
 Task.deleteMany({})
 	.then(() => {
-		Project.insertMany(taskSeeds)
+		Task.insertMany(taskSeeds)
 	})
 	.then(console.log())
 	.catch(console.error)
