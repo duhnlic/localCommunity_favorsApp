@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Tasks = require('../models/Tasks');
+const Task = require('../models/Task');
 const { auth } = require('./authController');
 
 // Index
