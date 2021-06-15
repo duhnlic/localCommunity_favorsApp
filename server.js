@@ -31,7 +31,7 @@ mongoose.connect(process.env.MONGO_URI, {
 })
 mongoose.connection.once('connected', () => console.log('Bongo Bongo Bongo I\'m Connected to the Mongo'))
 
-app.use('/tasks', require('./controllers/tasksController'))
+app.use('/tasks', require('./controllers/taskController'))
 app.use('/users', require('./controllers/userController'))
 
 app.get('/', (req, res) => {
