@@ -5,8 +5,7 @@ const Task = require('../models/Task')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const SECRET = process.env.SECRET_KEY
-const { auth } = require('./authController')
-const { hash } = require('./controllers/authController')
+const { auth, hash } = require('./authController')
 
 router.get('/', (req, res) => {
 	console.log(res.locals)
@@ -22,7 +21,7 @@ router.get('/', (req, res) => {
 })
 
 // login route
-app.post('/login', (req, res) => {
+router.post('/login', (req, res) => {
 	const { username, password } = req.body
 	const hashedPassword = hash(password)
 	User.findOne({ username }, (err, foundUser) => {
@@ -52,7 +51,7 @@ app.post('/login', (req, res) => {
 })
 
 // register
-app.post(
+router.post(
 	'/register',
 	(req, res, next) => {
 		console.log('I am middleware')
