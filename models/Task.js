@@ -12,6 +12,9 @@ const taskSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+},
+{
+  timestamp: true,
 })
 
 module.exports = model('Task', taskSchema)

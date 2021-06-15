@@ -1,6 +1,8 @@
-require('dotenv').config() 
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config()
+}
+
 const express = require('express'); 
-const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -8,7 +10,7 @@ const SECRET = process.env.SECRET_KEY
 const {hash} = require('./controllers/authController');
 const User = require('./models/User')
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT
 
 //database and middleware
 app.use(express.json())
@@ -16,20 +18,6 @@ app.use((req, res, next) => {
     next()
 })
 app.use(cors())
-mongoose.connect(process.env.MONGO_URI, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    connectTimeoutMS: 3000
-},(err, res)=>{
-    try{
-        console.log("Mongo is Connected")
-    } catch(err) {
-        console.log(err)
-    }
-})
-mongoose.connection.once('connected', () => console.log('Bongo Bongo Bongo I\'m Connected to the Mongo'))
 
 app.use('/tasks', require('./controllers/taskController'))
 app.use('/users', require('./controllers/userController'))
