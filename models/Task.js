@@ -1,20 +1,21 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require('../db/connection')
 
 const taskSchema = new Schema({
-  title: {
+	category: {
+		type: String,
+		required: true,
+	},
+	title: {
 		type: String,
 		required: true,
 	},
 	description: String,
-  creationDate: { type: Date, default: Date.now },
+	creationDate: { type: Date, default: Date.now },
 	dueDate: Date,
 	completed: {
 		type: Boolean,
 		default: false,
 	},
-},
-{
-  timestamp: true,
 })
 
 module.exports = model('Task', taskSchema)
