@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require('../db/connection')
 
 const userSchema = new Schema({
 	profileIcon: { type: String, required: true },
