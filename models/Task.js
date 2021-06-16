@@ -16,6 +16,7 @@ const taskSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+	createdBy: String,
 })
 
 module.exports = model('Task', taskSchema)
