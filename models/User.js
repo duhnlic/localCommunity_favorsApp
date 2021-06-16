@@ -6,7 +6,7 @@ const userSchema = new Schema({
 	password: { type: String, required: true },
 	tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
 	offers: [{ type: Schema.Types.ObjectId, ref: 'Offer' }],
-	completedTotal: { type: Number },
+	completedTotal: Number,
 })
 
 module.exports = model('User', userSchema)
