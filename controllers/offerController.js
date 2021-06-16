@@ -4,7 +4,7 @@ const Offer = require('../models/Offer')
 const { auth } = require('./authController')
 
 // Index
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
 	let filters
 	if (Object.keys(req.query).length > 0) {
 		filters = { ...req.query }
@@ -24,7 +24,7 @@ router.get('/', auth, async (req, res) => {
 	}
 })
 // Create
-router.post('/', auth, async (req, res) => {
+router.post('/', async (req, res) => {
 	try {
 		const createdOffers = await Offer.create(req.body)
 		res.status(200).json(createdOffers)
@@ -35,7 +35,7 @@ router.post('/', auth, async (req, res) => {
 	}
 })
 // Read
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', async (req, res) => {
 	try {
 		const foundOffers = await Offer.findById(req.params.id)
 		res.status(200).json(foundOffers)
@@ -46,7 +46,7 @@ router.get('/:id', auth, async (req, res) => {
 	}
 })
 // Update
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', async (req, res) => {
 	try {
 		const updatedOffers = await Offer.findByIdAndUpdate(
 			req.params.id,
@@ -61,7 +61,7 @@ router.put('/:id', auth, async (req, res) => {
 	}
 })
 // Delete
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
 	try {
 		const deletedOffers = await Offer.findByIdAndDelete(req.params.id)
 		res.status(200).json(deletedOffers)

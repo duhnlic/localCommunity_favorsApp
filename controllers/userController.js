@@ -83,7 +83,7 @@ router.post(
 	}
 )
 
-router.post('/addTaskToUser', auth, async (req, res) => {
+router.post('/addTaskToUser', async (req, res) => {
 	const task = await Task.create(req.body)
 	const addTaskQuery = User.findOneAndUpdate(
 		{ username: res.locals.user },
@@ -103,7 +103,7 @@ router.post('/addTaskToUser', auth, async (req, res) => {
 	})
 })
 
-router.post('/addTask/:task/:username', auth, (req, res) => {
+router.post('/addTask/:task/:username', (req, res) => {
 	const taskQuery = Task.findOne({ _id: req.params.task })
 	taskQuery.exec((err, task) => {
 		if (err) {
@@ -131,7 +131,7 @@ router.post('/addTask/:task/:username', auth, (req, res) => {
 	})
 })
 
-router.delete('/:username/:task', auth, (req, res) => {
+router.delete('/:username/:task', (req, res) => {
 	const deletedTask = User.findOneAndUpdate(
 		{ username: req.params.username },
 		{ $pull: { task: req.params.task } }
@@ -148,7 +148,7 @@ router.delete('/:username/:task', auth, (req, res) => {
 	})
 })
 
-router.get('/:username', auth, (req, res) => {
+router.get('/:username', (req, res) => {
 	const userQuery = User.findOne({
 		username: req.params.username.toLowerCase(),
 	})
