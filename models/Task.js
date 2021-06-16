@@ -1,7 +1,5 @@
 const { Schema, model } = require('../db/connection')
 
-const UserSchema = require('./User')
-
 const taskSchema = new Schema({
 	type: {
 		type: String,
@@ -18,7 +16,7 @@ const taskSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
-	createdBy: UserSchema,
+	createdBy: String,
 })
 
 module.exports = model('Task', taskSchema)
