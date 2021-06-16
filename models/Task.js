@@ -1,7 +1,7 @@
 const { Schema, model } = require('../db/connection')
 
 const taskSchema = new Schema({
-	category: {
+	type: {
 		type: String,
 		required: true,
 	},
