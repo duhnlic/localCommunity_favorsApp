@@ -9,9 +9,7 @@ const PORT = process.env.PORT
 
 //database and middleware
 app.use(express.json())
-app.use((req, res, next) => {
-	next()
-})
+app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
 app.use('/tasks', require('./controllers/taskController'))

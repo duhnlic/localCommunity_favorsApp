@@ -8,7 +8,6 @@ const SECRET = process.env.SECRET_KEY
 const { auth, hash } = require('./authController')
 
 router.get('/', (req, res) => {
-	console.log(res.locals)
 	const userQuery = User.find({}).select('-password').populate('stations')
 	userQuery.exec((err, foundUsers) => {
 		if (err) {
@@ -24,6 +23,7 @@ router.get('/', (req, res) => {
 router.post('/login', (req, res) => {
 	const { username, password } = req.body
 	const hashedPassword = hash(password)
+
 	User.findOne({ username }, (err, foundUser) => {
 		if (err) {
 			res.status(400).json({ msg: err.message })
@@ -36,6 +36,7 @@ router.post('/login', (req, res) => {
 					},
 					SECRET
 				)
+
 				res.status(200).json({
 					token,
 					username: foundUser.username,
@@ -54,7 +55,6 @@ router.post('/login', (req, res) => {
 router.post(
 	'/register',
 	(req, res, next) => {
-		console.log('I am middleware')
 		next()
 	},
 	(req, res) => {
