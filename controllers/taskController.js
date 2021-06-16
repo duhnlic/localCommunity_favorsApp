@@ -4,8 +4,7 @@ const Task = require('../models/Task')
 const { auth } = require('./authController')
 
 // Index
-// router.get('/', auth, async (req, res) => {
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
 	let filters
 	if (Object.keys(req.query).length > 0) {
 		filters = { ...req.query }
@@ -25,8 +24,7 @@ router.get('/', async (req, res) => {
 	}
 })
 // Create
-// router.post('/', auth, async (req, res) => {
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 	try {
 		const createdTasks = await Task.create(req.body)
 		res.status(200).json(createdTasks)
@@ -37,8 +35,7 @@ router.post('/', async (req, res) => {
 	}
 })
 // Read
-// router.get('/:type', auth, async (req, res) => {
-router.get('/:type', async (req, res) => {
+router.get('/:type', auth, async (req, res) => {
 	try {
 		const foundTasks = await Task.findOne({ type: req.params.type })
 		res.status(200).json(foundTasks)
@@ -49,8 +46,7 @@ router.get('/:type', async (req, res) => {
 	}
 })
 // Update
-// router.put('/:id', auth, async (req, res) => {
-router.put('/:type', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
 	try {
 		const updatedTasks = await Task.findByIdAndUpdate(req.params.id, req.body, {
 			new: true,
@@ -63,8 +59,7 @@ router.put('/:type', async (req, res) => {
 	}
 })
 // Delete
-// router.delete('/:id', auth, async (req, res) => {
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
 	try {
 		const deletedTasks = await Task.findByIdAndDelete(req.params.id)
 		res.status(200).json(deletedTasks)
