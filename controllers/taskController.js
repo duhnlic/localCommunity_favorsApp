@@ -37,10 +37,10 @@ router.post('/', async (req, res) => {
 	}
 })
 // Read
-// router.get('/:id', auth, async (req, res) => {
-router.get('/:id', async (req, res) => {
+// router.get('/:type', auth, async (req, res) => {
+router.get('/:type', async (req, res) => {
 	try {
-		const foundTasks = await Task.findById(req.params.id)
+		const foundTasks = await Task.findOne({ type: req.params.type })
 		res.status(200).json(foundTasks)
 	} catch (error) {
 		res.status(400).json({
@@ -50,7 +50,7 @@ router.get('/:id', async (req, res) => {
 })
 // Update
 // router.put('/:id', auth, async (req, res) => {
-router.put('/:id', async (req, res) => {
+router.put('/:type', async (req, res) => {
 	try {
 		const updatedTasks = await Task.findByIdAndUpdate(req.params.id, req.body, {
 			new: true,
