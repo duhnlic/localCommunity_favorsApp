@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../models/User')
-const Task = require('../models/Task')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+
+const User = require('../models/User')
+const Task = require('../models/Task')
 const SECRET = process.env.SECRET_KEY
 const { auth, hash } = require('./authController')
 
@@ -19,6 +20,23 @@ router.get('/', (req, res) => {
 	})
 })
 
+router.get('/:username', (req, res) => {
+	const userQuery = User.findOne({
+		username: req.params.username.toLowerCase(),
+	})
+		.select('-password')
+		.populate('task')
+	userQuery.exec((err, foundUser) => {
+		if (err) {
+			res.status(400).json({
+				msg: err.message,
+			})
+		} else {
+			res.status(200).json(foundUser)
+		}
+	})
+})
+
 // login route
 router.post('/login', (req, res) => {
 	const { username, password } = req.body
@@ -26,62 +44,59 @@ router.post('/login', (req, res) => {
 
 	User.findOne({ username }, (err, foundUser) => {
 		if (err) {
-			res.status(400).json({ msg: err.message })
-		} else {
-			if (foundUser && bcrypt.compareSync(hashedPassword, foundUser.password)) {
-				const token = jwt.sign(
-					{
-						id: foundUser._id,
-						username: foundUser.username,
-					},
-					SECRET
-				)
-
-				res.status(200).json({
-					token,
-					username: foundUser.username,
-				})
-			} else {
-				res.status(500).json({
-					problem:
-						'The comparison did not work, did you change your hash algorithm?',
-				})
-			}
+			return res.status(400).json({ msg: err.message })
 		}
+
+		if (!foundUser) {
+			return res.send({ userFound: false })
+		}
+
+		if (bcrypt.compareSync(hashedPassword, foundUser.password)) {
+			const token = jwt.sign(
+				{
+					id: foundUser._id,
+					username: foundUser.username,
+				},
+				SECRET
+			)
+
+			return res.status(200).json({
+				userFound: true,
+				isPasswordValid: true,
+				token,
+				username: foundUser.username,
+			})
+		}
+
+		res.send({ userFound: true, isPasswordValid: false })
 	})
 })
 
 // register
-router.post(
-	'/register',
-	(req, res, next) => {
-		next()
-	},
-	(req, res) => {
-		const passwordHash = hash(req.body.password)
-		req.body.password = bcrypt.hashSync(passwordHash, bcrypt.genSaltSync(10))
+router.post('/register', (req, res) => {
+	const passwordHash = hash(req.body.password)
+	req.body.password = bcrypt.hashSync(passwordHash, bcrypt.genSaltSync(10))
 
-		User.create(req.body, (err, createdUser) => {
-			if (err) {
-				console.log(err)
-				res.status(400).json({
-					msg: err.message,
-				})
-			} else {
-				const token = jwt.sign(
-					{
-						id: createdUser._id,
-						username: createdUser.username,
-					},
-					SECRET
-				)
-				res.status(200).json({
-					token,
-				})
-			}
-		})
-	}
-)
+	User.create(req.body, (err, createdUser) => {
+		if (err) {
+			console.log(err)
+			res.status(400).json({
+				msg: err.message,
+			})
+		} else {
+			const token = jwt.sign(
+				{
+					id: createdUser._id,
+					username: createdUser.username,
+				},
+				SECRET
+			)
+			res.status(200).json({
+				token,
+			})
+		}
+	})
+})
 
 router.post('/addTaskToUser', async (req, res) => {
 	const task = await Task.create(req.body)
@@ -144,23 +159,6 @@ router.delete('/:username/:task', (req, res) => {
 			})
 		} else {
 			res.status(200).json(deletedTask)
-		}
-	})
-})
-
-router.get('/:username', (req, res) => {
-	const userQuery = User.findOne({
-		username: req.params.username.toLowerCase(),
-	})
-		.select('-password')
-		.populate('task')
-	userQuery.exec((err, foundUser) => {
-		if (err) {
-			res.status(400).json({
-				msg: err.message,
-			})
-		} else {
-			res.status(200).json(foundUser)
 		}
 	})
 })
